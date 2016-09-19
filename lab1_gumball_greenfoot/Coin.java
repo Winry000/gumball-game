@@ -17,8 +17,10 @@ public class Coin extends Actor
         return isReal;
     }
     
-    public void act() 
-    {
+
+    public void act()
+    {   
+        
         int mouseX, mouseY ;
         
         if(Greenfoot.mouseDragged(this)) {          

@@ -3,8 +3,8 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 /**
  * Write a description of class GumballWorld here.
  * 
- * @author (your name) 
- * @version (a version number or a date)
+ * @author (Qianwen Xie) 
+ * @version (09/15/16)
  */
 public class GumballWorld extends World
 {
@@ -40,8 +40,6 @@ public class GumballWorld extends World
         GreenPicker greenpicker = new GreenPicker();
         addObject(greenpicker, 686, 454);
         greenpicker.setLocation(669, 456);
-        Quarter quarter2 = new Quarter();
-        addObject(quarter2, 157, 426);
-        quarter2.setLocation(67, 354);
+
     }
 }

@@ -18,12 +18,14 @@ public class RandomPicker extends Picker
         int num = Greenfoot.getRandomNumber(3);
         switch(num)
         {
-            case 0:gb = new BlueGumball(); break;
-            case 1:gb = new RedGumball(); break;
-            case 2:gb = new GreenGumball(); break;
+            case 0:gb = new BlueGumball();
+            break;
+            case 1:gb = new RedGumball(); 
+            break;
+            case 2:gb = new GreenGumball();
+            break;
         }
         World world = getWorld();
         world.addObject(gb,500,500);
-        //setMessage(gb.getClass().getName());
     }
 }

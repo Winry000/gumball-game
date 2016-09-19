@@ -13,7 +13,6 @@ public class Message extends Actor
      * the 'Act' or 'Run' button gets pressed in the environment.
      */
     GreenfootImage gi;
-    
     public Message(){
         gi = new GreenfootImage(150,50);
         setImage(gi);

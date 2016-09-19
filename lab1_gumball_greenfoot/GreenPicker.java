@@ -16,6 +16,6 @@ public class GreenPicker extends Picker
     {
         World world = getWorld();
         Gumball gb = new GreenGumball();
-        world.addObject(gb,500,500);
+        world.addObject(gb,500,500); 
     }    
 }

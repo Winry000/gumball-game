@@ -8,131 +8,125 @@ import java.util.*;
  */
 public class GumballMachine extends Actor
 {
-    Message m = new Message();   
-    Coin haveCoin = null;
-    
-    public GumballMachine()
+    Message message= new Message();   
+    Coin inCoin = null;
+        public GumballMachine()
     {
         GreenfootImage image = getImage() ; //set image
         image.scale( 350, 400 ) ; 
     }
     
+       public void checkCoin(Coin coin){
+        
+        moveInspector(540,291);//ispector move back
+        if(coin.isReal()){
+            if(coin.getValue() == 25){
+                outputMessage("real quarter");
+                Greenfoot.delay(50);
+                selectPicker();
+            }else if(coin.getValue() != 25){
+                outputMessage("Sorry, not enough");
+                Greenfoot.delay(100);
+                World world = getWorld();
+                world.removeObject(message);
+            }
+        }else{
+
+                outputMessage("fake quarter");
+                Greenfoot.delay(100);
+                World world = getWorld();
+                world.removeObject(message);
+            }
+        inCoin = null;
+    }
+    
+    
     public void selectPicker(){
         int pickerN = Greenfoot.getRandomNumber(2);
         World world = getWorld();
-        List<GreenPicker> gPk = world.getObjects(GreenPicker.class);
-        List<RandomPicker> rPk = world.getObjects(RandomPicker.class);
-        if(pickerN == 1){
-            Picker picker = gPk.remove(0);
-            Greenfoot.delay(100);
-            setMessage("Green Picker");
+        List<GreenPicker> greenPk = world.getObjects(GreenPicker.class);
+        List<RandomPicker> randomPk = world.getObjects(RandomPicker.class);
+        if(pickerN == 0){
+            // select the green picker
+            Picker picker = greenPk.remove(0); 
+            Greenfoot.delay(60);
+            outputMessage("Green Picker");
             picker.moveTo(669-200,456-60);
-            Greenfoot.delay(100);
+            Greenfoot.delay(60);
             picker.pick();
-            Greenfoot.delay(100);
+            Greenfoot.delay(60);
             picker.moveTo(669,456);
         }else{
-            //random picker
-            Picker picker = rPk.remove(0);
-            Greenfoot.delay(100);
-            setMessage("Random Picker");
+            //select the random picker
+            Picker picker = randomPk.remove(0);
+            Greenfoot.delay(60);
+            outputMessage("Random Picker");
             picker.moveTo(655-200,94+60);
-            Greenfoot.delay(100);
-            picker.pick();//random select the gumball
-            Greenfoot.delay(100);
+            Greenfoot.delay(60);
+            picker.pick();
+            Greenfoot.delay(60);
             picker.moveTo(655,94);
         }
-        
-        //what to do afterward
-        cleanUp();
-        
-    }
-    
-    public void cleanUp(){
-        World world = getWorld();
-        if(m.getWorld() != null){ 
-            world.removeObject(m);
-        }
-        List<Gumball> gb = world.getObjects(Gumball.class);
-        for(Gumball a: gb){
+        world.removeObject(message);
+        List<Gumball> gball = world.getObjects(Gumball.class);
+        for(Gumball a: gball){
             world.removeObject(a);   //remove gumball
         }
+        
     }
     
-    public void setMessage(String msg)
+    public void outputMessage(String msg)
     {
         int mouseX, mouseY;
         MouseInfo mouse = Greenfoot.getMouseInfo();
         mouseX = mouse.getX();
         mouseY = mouse.getY();
         World world = getWorld();
-        if(m.getWorld() != null){
-            world.removeObject(m);
+        if(message.getWorld() != null){
+            world.removeObject(message);
         }
-        world.addObject(m,mouseX,mouseY);
-        m.setText(msg);
+        world.addObject(message,mouseX,mouseY);
+        message.setText(msg);
     }
     
     public void act() 
     {
-
-        Actor coin = getOneObjectAtOffset(+10,+10,Coin.class); //get the coin offset
+        Actor coin = getOneObjectAtOffset(+10,+10,Coin.class);
         if ( coin != null )
         {
-            if(haveCoin != null){
-                coin.move(-300);
+            if(inCoin != null){
+                World world = getWorld();
+                world.removeObject(coin);
             }
-            else
-            {
-              haveCoin = (Coin)coin;
-              setMessage("Have Coin!Turn Crank!");
+            else{
+              inCoin = (Coin)coin;
+              outputMessage("Have Coin!Turn Crank!");
               insertCoin(coin); 
             }
         }
         
         if(Greenfoot.mousePressed(this)){
-            if(haveCoin == null)
-            setMessage("No Coin in Slot!");
+            if(inCoin == null)
+                 outputMessage("No Coin in Slot!");
             else{
-                 setMessage("Crank Turned!");
+                 outputMessage("Crank Turned!");
                  Greenfoot.delay(100);
                  moveInspector(533-80,300-50);
-                 setMessage("Check Coin!");
+                 outputMessage("Check Coin!");
                  Greenfoot.delay(100);
-                 checkCoin(haveCoin);
-            }
-            // what to do next?
+                 checkCoin(inCoin);
+               }
         }
     }
-    private void insertCoin(Actor coin){                                        
+    public void insertCoin(Actor coin){                                        
         World world = getWorld();
         world.removeObject(coin);           
     }
     public void moveInspector(int x, int y){
-       Inspector inspector; 
+       Inspector inspector = new Inspector();
        inspector = (Inspector)this.getOneIntersectingObject(Inspector.class);
-       inspector.moveTo(x,y);
+       inspector.moveTo(x,y); 
     }
-    public void checkCoin(Coin coin){
-        moveInspector(533,291);//ispector move back
-        if(coin.isReal()){
-            if(coin.getValue() == 25){
-                setMessage("real quarter");
-                selectPicker();
-            }else if(coin.getValue() == 1){
-                setMessage("Sorry, not enough");
-                Greenfoot.delay(300);
-                cleanUp();
-            }
-        }else{
-                //System.out.println("fake coin loop");
-                setMessage("fake quarter");
-                Greenfoot.delay(300);
-                cleanUp();
-        }
-        
-        haveCoin = null;
-    }
-    
+ 
 }
 
