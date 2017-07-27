@@ -1,0 +1,11 @@
+{
+	"name": "node-example",
+	"version": "0.0.1",
+	"dependencies": {
+		"express": "4.15.2"
+	},
+	"engines": {
+		"node": "6.10.2",
+		"npm": "1.2.x"
+	}
+}
